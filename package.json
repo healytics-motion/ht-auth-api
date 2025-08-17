@@ -1,23 +1,17 @@
 {
   "name": "ht-auth-api",
-  "version": "1.0.0",
-  "description": "Handles user authentication, token management, and authorization for the Healytics Motion platform.",
-  "main": "src/index.js",
-  "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "nodemon": "^3.1.10"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/healytics-motion/ht-auth-api.git"
+  "peerDependencies": {
+    "typescript": "^5"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/healytics-motion/ht-auth-api/issues"
-  },
-  "homepage": "https://github.com/healytics-motion/ht-auth-api#readme",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
@@ -26,11 +20,7 @@
     "express-rate-limit": "^8.0.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "node-fetch": "^3.3.2",
     "pg": "^8.16.3",
     "zod": "^4.0.17"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
   }
 }
