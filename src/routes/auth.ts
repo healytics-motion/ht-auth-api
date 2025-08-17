@@ -1,6 +1,7 @@
+import type { Request, Response } from 'express';
 import express from 'express';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import { z } from 'zod';
 import { query } from '../db.js';
 
@@ -11,18 +12,21 @@ const credsSchema = z.object({
   password: z.string().min(8).max(128)
 });
 
-function signAccessToken(user) {
-  return jwt.sign(
-    { sub: user.id, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES || '1h' }
-  );
+// TODO: get a proper user type on a file
+function signAccessToken(user: { id: string; email: string }) {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error("JWT_SECRET not set");
+  const options: SignOptions= {
+    expiresIn: process.env.JWT_EXPIRES as any,
+  };
+
+  return jwt.sign({ sub: user.id, email: user.email }, secret, options);
 }
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
   const parsed = credsSchema.safeParse(req.body);
   if (!parsed.success) {
-    return res.status(400).json({ error: 'Invalid input', details: parsed.error.errors });
+    return res.status(400).json({ error: 'Invalid input', details: parsed.error });
   }
   const { email, password } = parsed.data;
 
@@ -54,7 +58,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
   const parsed = credsSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({ error: 'Invalid input', details: parsed.error.errors });

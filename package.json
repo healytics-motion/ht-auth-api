@@ -10,7 +10,8 @@
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
-    "nodemon": "^3.1.10"
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/pg": "^8.15.5"
   },
   "peerDependencies": {
     "typescript": "^5"
